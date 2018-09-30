@@ -416,7 +416,29 @@ namespace Contraindicator.Data
             }
         }
 
-        public async Task<SubstanceList> GetContraindicationsAsync(string substanceId)
+        public async Task<ProductList> GetProductContraindicationsAsync(string productId)
+        {
+            try
+            {
+                var products = await _client.Cypher.Match("(s:Product)-[:Contain]->(:Substance)-[:Contraindicate]->(:Substance)<-[r:Contain]-(t:Product)")
+                    .Where((Product s) => s.ProductId == productId)
+                    .Return((r, t) => new ProductListItem()
+                    {
+                        Relationship = r.As<RelationshipInstance<Contain>>(),
+                        Node = t.As<Node<Product>>()
+                    })
+                    .ResultsAsync;
+
+                return new ProductList() { Products = products };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error executing graph query: {0}", ex.Message);
+                throw new InvalidOperationException(ex.Message);
+            }
+        }
+
+        public async Task<SubstanceList> GetSubstanceContraindicationsAsync(string substanceId)
         {
             try
             {

@@ -68,7 +68,9 @@ namespace Contraindicator.Data
             Contain data = null);
         Task<bool> DeleteContraindicateAsync(string sourceSubstanceId, string targetSubstanceId);
 
-        Task<SubstanceList> GetContraindicationsAsync(string substanceId);
+        Task<ProductList> GetProductContraindicationsAsync(string productId);
+
+        Task<SubstanceList> GetSubstanceContraindicationsAsync(string substanceId);
 
         #endregion
     }

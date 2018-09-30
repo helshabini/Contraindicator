@@ -34,15 +34,10 @@ namespace Contraindicator
                                                         NeoServerConfiguration.GetConfiguration(new Uri(Configuration["Graph:Uri"]), Configuration["Graph:Username"], Configuration["Graph:Password"])
                                                         ));
 
-            services.AddMvc(config =>
-            {
-#if !DEBUG
-            config.Filters.Add(new RequireHttpsAttribute());
-#endif
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-                //Adding Configuration
-                services.AddSingleton(Configuration);
+            //Adding Configuration
+            services.AddSingleton(Configuration);
 
             //Adding Swagger
             services.AddSwaggerGen(c =>
@@ -81,7 +76,7 @@ namespace Contraindicator
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Contraindicator API v1");
+                c.SwaggerEndpoint("/api/v1/swagger.json", "Contraindicator API v1");
             });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
