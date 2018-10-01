@@ -56,7 +56,7 @@ namespace Contraindicator
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async Task ConfigureAsync(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IGraphClientSeedData seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IGraphClientSeedData seeder)
         {
             if (env.IsDevelopment())
             {
@@ -76,13 +76,13 @@ namespace Contraindicator
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/api/v1/swagger.json", "Contraindicator API v1");
+                c.SwaggerEndpoint("swagger.json", "Contraindicator API v1");
             });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            await seeder.EnsureSeedDataAsync();
+            seeder.EnsureSeedDataAsync().Wait();
         }
     }
 }

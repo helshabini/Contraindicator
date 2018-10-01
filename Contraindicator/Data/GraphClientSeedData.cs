@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contraindicator.Models.Nodes;
 using Contraindicator.Models.Relationships;
@@ -24,7 +25,7 @@ namespace Contraindicator.Data
                 {
                     Name = "lysergic acid diethylamide",
                     Description = "Schedule I drugs, substances, or chemicals are defined as drugs with no currently accepted medical use and a high potential for abuse.",
-                    Properties = { { "Physicochemical", "These are properties such as pH of an aqueous solution," +
+                    Properties = new Dictionary<string, string>(){ { "Physicochemical", "These are properties such as pH of an aqueous solution," +
                     " melting point / range, and refractive index. The procedures used for the measurement of these " +
                     "properties are usually unique and do not need much elaboration, e.g., capillary melting point, " +
                     "Abbé refractometry."} }
@@ -34,7 +35,7 @@ namespace Contraindicator.Data
                 {
                     Name = "methylenedioxymethamphetamine",
                     Description = "Schedule I drugs, substances, or chemicals are defined as drugs with no currently accepted medical use and a high potential for abuse.",
-                    Properties = { { "Physicochemical", "These are properties such as pH of an aqueous solution," +
+                    Properties = new Dictionary<string, string>(){ { "Physicochemical", "These are properties such as pH of an aqueous solution," +
                     " melting point / range, and refractive index. The procedures used for the measurement of these " +
                     "properties are usually unique and do not need much elaboration, e.g., capillary melting point, " +
                     "Abbé refractometry."} }
@@ -44,14 +45,14 @@ namespace Contraindicator.Data
                 {
                     Name = "LSD",
                     Description = "Halocigenic",
-                    Properties = { }
+                    Properties = null
                 });
 
                 var drug2 = await _repository.CreateProductAsync(new Product
                 {
                     Name = "Ecstacy",
                     Description = "Party Drug",
-                    Properties = { }
+                    Properties = null
                 });
 
                 await _repository.CreateContainAsync(drug1.Data.ProductId, sub1.Data.SubstanceId);
