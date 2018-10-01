@@ -67,17 +67,21 @@ namespace Contraindicator
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "api/swagger/{documentName}/swagger.json";
+            });
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("swagger.json", "Contraindicator API v1");
+
+                c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Sample Web API");
+                c.RoutePrefix = "api/swagger";
+
             });
+
+            app.UseHttpsRedirection();
+            app.UseMvc();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
